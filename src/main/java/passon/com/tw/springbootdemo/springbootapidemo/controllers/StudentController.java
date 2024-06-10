@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("students")
 public class StudentController {
 
     // http://localhost:8100/students
-    @GetMapping("students")
+    @GetMapping
     public ResponseEntity<Student> getStudent() {
         Student student = new Student(
                 1,
@@ -24,7 +25,7 @@ public class StudentController {
         return ResponseEntity.ok().header("custom-header", "ramesh").body(student);
     }
 
-    @GetMapping("students/list")
+    @GetMapping("/list")
     public ResponseEntity<List<Student>> getStudents () {
         List<Student> students = new ArrayList<>();
         students.add(new Student(1, "Ramesh", "Fadatare"));
@@ -38,7 +39,7 @@ public class StudentController {
      * @param studentId
      * @return
      */
-    @GetMapping("students/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable("id") int studentId) {
         Student student = new Student(
                 studentId,
@@ -54,7 +55,7 @@ public class StudentController {
      * @param studentId
      * @return
      */
-    @PutMapping("students/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable("id") int studentId, @RequestBody Student updateStudent) {
         Student student = new Student(
                 studentId,
@@ -70,7 +71,7 @@ public class StudentController {
      * @param studentId
      * @return
      */
-    @GetMapping("students/query")
+    @GetMapping("/query")
     public ResponseEntity<Student> getStudentById(@RequestParam("id") int studentId) {
         Student student = new Student(
                 studentId,
@@ -86,7 +87,7 @@ public class StudentController {
      * @param student
      * @return
      */
-    @PostMapping("students")
+    @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         System.out.println(student.getId());
         System.out.println(student.getFirstName());
@@ -100,7 +101,7 @@ public class StudentController {
      * @param studentId
      * @return
      */
-    @DeleteMapping("students/{id}")
+    @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable("id") int studentId) {
         System.out.println(studentId);
         return "Student deleted successfully";
