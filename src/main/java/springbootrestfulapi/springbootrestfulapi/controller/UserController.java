@@ -28,15 +28,15 @@ public class UserController {
     }
 
     @GetMapping("{userId}")
-    public  ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        User userResult = userService.getUserById(userId);
+    public  ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
+        UserDto userResult = userService.getUserById(userId);
         return new ResponseEntity<>(userResult, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> usersResult = userService.getAllUsers();
-        return new ResponseEntity<List<User>>(usersResult, HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> usersResult = userService.getAllUsers();
+        return new ResponseEntity<List<UserDto>>(usersResult, HttpStatus.OK);
     }
     @PutMapping("{userId}")
     public ResponseEntity<User> updateUserById(@PathVariable Long userId, @RequestBody User user) {

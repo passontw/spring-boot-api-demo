@@ -10,6 +10,7 @@ import springbootrestfulapi.springbootrestfulapi.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,14 +40,16 @@ public class    UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public UserDto getUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.get();
+        UserDto userResultDto = UserMapper.mapUserToUserDto(optionalUser.get());
+        return userResultDto;
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserMapper::mapUserToUserDto).collect(Collectors.toList());
     }
 
     @Override
