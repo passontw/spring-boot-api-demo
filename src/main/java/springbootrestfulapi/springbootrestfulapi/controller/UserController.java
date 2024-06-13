@@ -3,12 +3,11 @@ package springbootrestfulapi.springbootrestfulapi.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -25,5 +24,17 @@ public class UserController {
         System.out.println(user.getEmail());
         User savedUser = userService.createUser(user);
         return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("{userId}")
+    public  ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        User userResult = userService.getUserById(userId);
+        return new ResponseEntity<>(userResult, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> usersResult = userService.getAllUsers();
+        return new ResponseEntity<List<User>>(usersResult, HttpStatus.OK);
     }
 }
