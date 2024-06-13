@@ -2,6 +2,7 @@ package springbootrestfulapi.springbootrestfulapi.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
 import springbootrestfulapi.springbootrestfulapi.repository.UserRepository;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
@@ -17,8 +18,22 @@ public class    UserServiceImpl implements UserService {
 
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDto createUser(UserDto user) {
+        User userSource = new User(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail()
+        );
+        User savedUser = userRepository.save(userSource);
+        UserDto userDto = new UserDto(
+                savedUser.getId(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getEmail()
+        );
+
+        return userDto;
     }
 
     @Override

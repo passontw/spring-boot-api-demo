@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
 
@@ -18,12 +19,12 @@ public class UserController {
 
     // build create User REST API
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
         System.out.println(user.getFirstName());
         System.out.println(user.getLastName());
         System.out.println(user.getEmail());
-        User savedUser = userService.createUser(user);
-        return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+        UserDto savedUser = userService.createUser(user);
+        return new ResponseEntity<UserDto>(savedUser, HttpStatus.CREATED);
     }
 
     @GetMapping("{userId}")
