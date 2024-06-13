@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
+import springbootrestfulapi.springbootrestfulapi.mapper.UserMapper;
 import springbootrestfulapi.springbootrestfulapi.repository.UserRepository;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
 
@@ -18,22 +19,12 @@ public class    UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDto createUser(UserDto user) {
-        User userSource = new User(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail()
-        );
+    public UserDto createUser(UserDto userDto) {
+        User userSource = UserMapper.mapUserDtoToUser(userDto);
         User savedUser = userRepository.save(userSource);
-        UserDto userDto = new UserDto(
-                savedUser.getId(),
-                savedUser.getFirstName(),
-                savedUser.getLastName(),
-                savedUser.getEmail()
-        );
+        UserDto userResultDto = UserMapper.mapUserToUserDto(savedUser)
 
-        return userDto;
+        return userResultDto;
     }
 
     @Override
