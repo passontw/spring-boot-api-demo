@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
-import springbootrestfulapi.springbootrestfulapi.mapper.UserMapper;
+import springbootrestfulapi.springbootrestfulapi.mapper.AutoUserMapper;
 import springbootrestfulapi.springbootrestfulapi.repository.UserRepository;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
 
@@ -21,35 +21,37 @@ public class    UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User userSource = UserMapper.mapUserDtoToUser(userDto);
+        // User userSource = UserMapper.mapUserDtoToUser(userDto);
+        User userSource = AutoUserMapper.MAPPER.mapUserDtoToUser(userDto);
         User savedUser = userRepository.save(userSource);
-        UserDto userResultDto = UserMapper.mapUserToUserDto(savedUser)
+        UserDto userResultDto = AutoUserMapper.MAPPER.mapUserToUserDto(savedUser);
 
         return userResultDto;
     }
 
     @Override
-    public User updateUser(Long userId, User user) {
+    public UserDto updateUser(Long userId, UserDto user) {
         User userResult = userRepository.findById(userId).get();
         userResult.setEmail(user.getEmail());
         userResult.setFirstName(user.getFirstName());
         userResult.setLastName(user.getLastName());
 
         User updatedUser = userRepository.save(userResult);
-        return updatedUser;
+        UserDto updatedUserResult = AutoUserMapper.MAPPER.mapUserToUserDto(updatedUser);
+        return updatedUserResult;
     }
 
     @Override
     public UserDto getUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        UserDto userResultDto = UserMapper.mapUserToUserDto(optionalUser.get());
+        UserDto userResultDto = AutoUserMapper.MAPPER.mapUserToUserDto(optionalUser.get());
         return userResultDto;
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(UserMapper::mapUserToUserDto).collect(Collectors.toList());
+        return users.stream().map((user) -> AutoUserMapper.MAPPER.mapUserToUserDto(user)).collect(Collectors.toList());
     }
 
     @Override
