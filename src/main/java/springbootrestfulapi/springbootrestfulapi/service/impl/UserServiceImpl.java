@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
+import springbootrestfulapi.springbootrestfulapi.exception.ResourceNotFoundException;
 import springbootrestfulapi.springbootrestfulapi.mapper.AutoUserMapper;
 import springbootrestfulapi.springbootrestfulapi.repository.UserRepository;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
@@ -31,7 +32,10 @@ public class    UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(Long userId, UserDto user) {
-        User userResult = userRepository.findById(userId).get();
+        User userResult = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userId)
+        );
+
         userResult.setEmail(user.getEmail());
         userResult.setFirstName(user.getFirstName());
         userResult.setLastName(user.getLastName());
@@ -43,8 +47,10 @@ public class    UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        UserDto userResultDto = AutoUserMapper.MAPPER.mapUserToUserDto(optionalUser.get());
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", id)
+        );
+        UserDto userResultDto = AutoUserMapper.MAPPER.mapUserToUserDto(user);
         return userResultDto;
     }
 

@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
+import springbootrestfulapi.springbootrestfulapi.exception.ErrorDetail;
+import springbootrestfulapi.springbootrestfulapi.exception.ResourceNotFoundException;
 import springbootrestfulapi.springbootrestfulapi.service.UserService;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -48,5 +53,17 @@ public class UserController {
     public ResponseEntity<String> updateUserById(@PathVariable Long userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>("Deleted user success", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest webRequest) {
+        ErrorDetail errorDetail = new ErrorDetail(
+                LocalDateTime.now(),
+                ex.getMessage(),
+                webRequest.getDescription(false),
+                "USER_NOT_FOUND"
+        );
+
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
     }
 }
