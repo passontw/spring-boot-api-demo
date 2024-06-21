@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springbootrestfulapi.springbootrestfulapi.dto.UserDto;
 import springbootrestfulapi.springbootrestfulapi.entity.User;
+import springbootrestfulapi.springbootrestfulapi.exception.EmailAlreadyExistsException;
 import springbootrestfulapi.springbootrestfulapi.exception.ResourceNotFoundException;
 import springbootrestfulapi.springbootrestfulapi.mapper.AutoUserMapper;
 import springbootrestfulapi.springbootrestfulapi.repository.UserRepository;
@@ -23,6 +24,12 @@ public class    UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         // User userSource = UserMapper.mapUserDtoToUser(userDto);
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+
+        if (optionalUser.isPresent()) {
+            throw new EmailAlreadyExistsException(userDto.getEmail() + "already exists");
+        }
+
         User userSource = AutoUserMapper.MAPPER.mapUserDtoToUser(userDto);
         User savedUser = userRepository.save(userSource);
         UserDto userResultDto = AutoUserMapper.MAPPER.mapUserToUserDto(savedUser);

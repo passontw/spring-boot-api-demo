@@ -55,15 +55,15 @@ public class UserController {
         return new ResponseEntity<>("Deleted user success", HttpStatus.OK);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest webRequest) {
-        ErrorDetail errorDetail = new ErrorDetail(
-                LocalDateTime.now(),
-                ex.getMessage(),
-                webRequest.getDescription(false),
-                "USER_NOT_FOUND"
-        );
-
-        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
-    }
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest webRequest) {
+//        ErrorDetail errorDetail = new ErrorDetail(
+//                LocalDateTime.now(),
+//                ex.getMessage(),
+//                webRequest.getDescription(false),
+//                "USER_NOT_FOUND"
+//        );
+//
+//        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+//    }
 }
