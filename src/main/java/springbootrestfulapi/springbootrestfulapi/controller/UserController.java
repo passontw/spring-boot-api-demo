@@ -1,5 +1,6 @@
 package springbootrestfulapi.springbootrestfulapi.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
 
     // build create User REST API
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
         System.out.println(user.getFirstName());
         System.out.println(user.getLastName());
         System.out.println(user.getEmail());
