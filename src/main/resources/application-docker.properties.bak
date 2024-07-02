@@ -1,12 +1,13 @@
 spring.application.name=spring-boot-restful-api
 server.port=8100
 
-spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/userDb
+spring.datasource.url=jdbc:mysql://${MYSQL_HOST:mysqldb}:3306/userDb
 spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.password=root
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+#spring.profiles.active=docker
 
 management.endpoints.web.exposure.include=*
 management.info.env.enabled=true
