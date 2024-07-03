@@ -24,3 +24,4 @@ $ docker run --network springboot-mysql-net --name springboot-mysql-container -p
 
 執行Docker 實確定  `application.properties` 的設定為 **spring.profiles.active=docker**
 
+[Kafka docker cluster](https://medium.com/@erkndmrl/kafka-cluster-with-docker-compose-5864d50f677e)
