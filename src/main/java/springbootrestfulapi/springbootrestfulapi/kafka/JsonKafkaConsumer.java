@@ -8,9 +8,10 @@ import springbootrestfulapi.springbootrestfulapi.payload.UserPayload;
 
 @Service
 public class JsonKafkaConsumer {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonKafkaConsumer.class);
 
-    @KafkaListener(topics = "javaguides", groupId = "myGroup")
+    @KafkaListener(topics = "${spring.kafka.topic-json.name}", groupId = "myGroup")
     public void consumeJson(UserPayload userPayload) {
         LOGGER.info(String.format("Json message recived -> %s", userPayload.toString()));
     }
