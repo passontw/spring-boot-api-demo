@@ -15,6 +15,6 @@ public class KafkaProducer {
     }
 
     public void sendMessage(String message) {
-        kafkaTemplate.send("javaguides", message);
+        kafkaTemplate.send("javaguides_string", message);
     }
 }
